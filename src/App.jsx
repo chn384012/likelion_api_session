@@ -58,7 +58,20 @@ const todoApi = {
      * TODO: 특정 할 일의 완료 여부(completed)를 업데이트하는 코드를 작성하세요.
      * URL에 id를 포함시키고, body에 변경할 상태를 담아 보내세요.
      */
-    return null;
+    // [추가] 과제 가이드에 맞게 작성된 상태 변경 통신 로직
+    const response = await fetch(
+      `${BASE_URL}/api/todos/${id}?code=${STUDENT_CODE}`,
+      {
+        method: "POST", // 명세서 규칙에 따라 POST 메서드 사용
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ completed: completed }), // 변경할 상태를 body에 담아 전달
+      },
+    );
+
+    const data = await response.json();
+    return data;
   },
 
   // 4. 할 일 삭제 (DELETE /api/todos/{id})
@@ -68,7 +81,16 @@ const todoApi = {
      * TODO: 특정 할 일을 서버에서 삭제하는 코드를 작성하세요.
      * method는 "DELETE"를 사용합니다.
      */
-    return null;
+    // [추가] 과제 가이드에 맞게 작성된 삭제 통신 로직
+    const response = await fetch(
+      `${BASE_URL}/api/todos/${id}?code=${STUDENT_CODE}`,
+      {
+        method: "DELETE", // 명세서 규칙에 따라 DELETE 메서드 사용
+      },
+    );
+
+    const data = await response.json();
+    return data;
   },
 };
 
