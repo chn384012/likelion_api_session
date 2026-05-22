@@ -89,8 +89,13 @@ const todoApi = {
       },
     );
 
-    const data = await response.json();
-    return data;
+    // 본문이 비어있을 수 있으므로 .json()을 호출하지 않고,
+    // 응답이 성공적(200번대)이었는지 확인하는 통과 신호만 보냅니다.
+    if (!response.ok) {
+      throw new Error("삭제 요청 실패");
+    }
+
+    return true;
   },
 };
 
