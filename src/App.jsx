@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./index.css";
 
 /**
@@ -7,10 +7,10 @@ import "./index.css";
  */
 
 // 스웨거에 명시된 서버 주소 (API가 실제 동작하는 본체입니다)
-const BASE_URL = "";
+const BASE_URL = "https://congachu.dev";
 
 // 본인의 학번! (나만의 데이터를 구분하기 위한 열쇠입니다)
-const STUDENT_CODE = "";
+const STUDENT_CODE = "20242889";
 
 const todoApi = {
   // 1. 할 일 조회 (GET /api/todos)
@@ -21,7 +21,12 @@ const todoApi = {
      * 1. fetch(`${BASE_URL}/api/todos?code=${STUDENT_CODE}`)
      * 2. 응답받은 JSON 데이터를 반환하세요.
      */
-    return [];
+    // 1. 서버에 GET 요청 보내기 (주소 뒤에 ?code=학번 필수!)
+    const response = await fetch(`${BASE_URL}/api/todos?code=${STUDENT_CODE}`);
+
+    // 2. JSON 형식의 응답 본문을 해석파싱
+    const data = await response.json();
+    return data;
   },
 
   // 2. 할 일 생성 (POST /api/todos)
@@ -33,7 +38,17 @@ const todoApi = {
      * 2. headers에 "Content-Type": "application/json" 설정
      * 3. body에 JSON.stringify({ content: content }) 설정
      */
-    return null;
+    const response = await fetch(`${BASE_URL}/api/todos?code=${STUDENT_CODE}`, {
+      method: "POST", // 1. POST 방식 명시
+      headers: {
+        "Content-Type": "application/json", // 2. JSON 데이터임을 서버에 알림
+      },
+      // 3. 명세서에 약속된 필드명 'content'에 데이터를 담아 JSON(문자열)로 포장
+      body: JSON.stringify({ content: content }),
+    });
+
+    const data = await response.json();
+    return data;
   },
 
   // 3. 할 일 상태 변경 (POST /api/todos/{id})
